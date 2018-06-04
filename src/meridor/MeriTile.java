@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import static meridor.MConst.*;
 
 public class MeriTile {
-	
+
 	public int tileID;
 	public int terrain;
 	public int x,y; //coordinates
@@ -47,7 +47,15 @@ public class MeriTile {
 	 * @param g
 	 */
 	public void drawMoveDepleted(Graphics g){
-		g.setColor(Color.red);
+		drawOutline(g, Color.red);
+	}
+	/**
+	 * Used to draw the outline color of the tile
+	 * @param c
+	 * @param g
+	 */
+	public void drawOutline(Graphics g, Color c){
+		g.setColor(c);
 		g.fillRect(x, y, TILESIZE, TILESIZE);
 	}
 	public void draw(Graphics g){
@@ -57,17 +65,17 @@ public class MeriTile {
 		 */
 		//set the size of the inner square
 		float innerdim=(TILESIZE-BattleMap.IMGDIM)/2;
-		
+
 		if (tileGraphicMap.containsKey(terrain)){
 			if (isTreasure(terrain)){
-				g.drawImage(tileGraphicMap.get(terrain), 
+				g.drawImage(tileGraphicMap.get(terrain),
 						x, y, null);
 			} else{
 				g.drawImage(tileGraphicMap.get(terrain), x+(int)innerdim, y+(int)innerdim, null);
 			}
 		}
 		g.setColor(Color.darkGray);
-		if (!isTreasure(terrain))			
+		if (!isTreasure(terrain))
 			g.drawRect(x+(int)innerdim, y+(int)innerdim, BattleMap.IMGDIM, BattleMap.IMGDIM);
 		g.drawRect(x, y, TILESIZE, TILESIZE);
 	}
