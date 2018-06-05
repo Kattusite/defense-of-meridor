@@ -1,5 +1,7 @@
 # defense-of-meridor
 
+# NOTE: THIS REPO IS NOT ACTIVELY MAINTAINED. INSTEAD SEE [https://github.com/Kattusite/DefenseOfMeridor] for the current version. 
+
 To - do
 =======
 
