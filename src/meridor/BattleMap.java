@@ -679,8 +679,10 @@ public class BattleMap extends JPanel implements ActionListener,MouseListener,Mo
 				yc=my/TILESIZE;
 			}
 //			System.out.println(mx+" "+my+"/"+xc+" "+yc);
+			// TODO make this a petAt(int[]) function
 			//if no target selected, try to reference parent coordinates to find a pet
-			if (parent.selected==null){
+			// The repeated parent.movesLeft logic is undesirable and can be fixed rather easily
+			if (parent.selected==null && parent.movesLeft>0){
 				for (int i=0;i<parent.ally.size();i++){
 					if (Arrays.equals(parent.ally.get(i).getLocation(),new int[]{xc,yc})
 							&& parent.ally.get(i).hasMove()){
@@ -814,15 +816,32 @@ public class BattleMap extends JPanel implements ActionListener,MouseListener,Mo
 						}
 						//additional cases go here
 						else {
-							//if ally pet, resolve special abilities: healing/disenchantments
-							parent.setSelected(null);
+							// if adjacent ally pet, select that one instead TODO modularize this
+							for (int i=0;i<parent.ally.size();i++){
+								if (Arrays.equals(parent.ally.get(i).getLocation(),new int[]{xc,yc})
+										&& parent.ally.get(i).hasMove()){
+									parent.setSelected(parent.ally.get(i));
+								}
+							}
+							//if ally pet, resolve special abilities: healing/disenchantments (TODO?)
+							//parent.setSelected(null);
 						}
 					} else {
-						//if ally pet, resolve special abilities: healing/disenchantments
+						// if movesealed:
+						//if ally pet, resolve special abilities: healing/disenchantments (TODO?)
 						parent.setSelected(null);
 					}
-			}
-
+				}
+				// if not adjacent:
+				else {
+					// if adjacent ally pet, select that one instead TODO modularize this
+					for (int i=0;i<parent.ally.size();i++){
+						if (Arrays.equals(parent.ally.get(i).getLocation(),new int[]{xc,yc})
+								&& parent.ally.get(i).hasMove()){
+							parent.setSelected(parent.ally.get(i));
+						}
+					}
+				}
 			}
 			updatePetLocations(parent.getPetLocations());
 		}

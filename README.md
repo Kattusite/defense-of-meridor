@@ -7,7 +7,9 @@ To - do
 * Make it so troops that were just converted this turn can still move.
 * Grey out a troop when it is selected
 * Make it so clicking on one troop when another is selected will select the second troop (assuming the currently selected troop cannot heal/unseal tp)
-* Desired behavior when running out of moves: Deselect current pet, disable further selection of pets. 
+* Desired behavior when running out of moves: Deselect current pet, disable further selection of pets.
+* Troop outline colors should also be shown in the troop info screen on the right hand side of the MeriFrame.
+* When the game has been won, remove all troop outlines.
 
 ##General QoL fixes
 * Make it more obvious when no turns remain.
@@ -16,6 +18,8 @@ To - do
 * Make the outline around each game tile about a pixel smaller (or alternatively make the black lines between cells a little thicker)
 * Better helper functions (e.g. for checking location / equality of pets)
 * toString() for MeriPet
+* The "Victory Click the Map to Continue" screen could use a semi-transparent background.
+* When you click on the battlemap and have no moves left, prompt to end turn. 
 
 ##General Bugs
 * There is a missed case if it is possible to both heal TPseal and healseal, so it is not always possible to heal correctly.
