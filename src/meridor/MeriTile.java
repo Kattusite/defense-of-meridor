@@ -58,6 +58,17 @@ public class MeriTile {
 		g.setColor(c);
 		g.fillRect(x, y, TILESIZE, TILESIZE);
 	}
+	/**
+	 * Used to signify that the pet on the tile has been selected
+	 * @param g
+	 */
+	public void drawSelected(Graphics g){
+		g.setColor(Color.decode("0x999999"));
+		//set the size of the inner square
+		float innerdim=(TILESIZE-BattleMap.IMGDIM)/2;
+		// Technically a BUG as it is 1px too large, but this looks fine. 
+		g.fillRect(x+(int)innerdim, y+(int)innerdim, BattleMap.IMGDIM, BattleMap.IMGDIM);
+	}
 	public void draw(Graphics g){
 		/* Despite obvious redundancy,
 		 * the following have to be written as is due to int rounding

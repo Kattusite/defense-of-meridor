@@ -555,6 +555,21 @@ public class BattleMap extends JPanel implements ActionListener,MouseListener,Mo
 		return isadj;
 	}
 	/**
+	 *
+	 * @param mp: a MeriPet to check
+	 * @return true if the passed pet is the selected meripet in parent
+	 */
+	public boolean isSelected(MeriPet mp){
+		boolean issel=false;
+		if (parent.selected!=null && mp!=null){
+			if (mp.getLocation()[0] == parent.selected.getLocation()[0] &&
+					mp.getLocation()[1] == parent.selected.getLocation()[1]){
+				issel=true;
+			}
+		}
+		return issel;
+	}
+	/**
 	 * set the terrain of a specific tile in the tilemap
 	 * mainly used to turn tiles blank or to craters
 	 * @param location
@@ -570,7 +585,8 @@ public class BattleMap extends JPanel implements ActionListener,MouseListener,Mo
 		this.setBackground(Color.white);
 		for (int i=0;i<MAPDIM;i++){
 			for (int j=0;j<MAPDIM;j++){
-				// TODO This is where I will draw the outlines around allied/enemy troops
+				boolean issel=false;
+				// Draw the colored outlines around ally / foe troops
 				if (isFoePetTerrain(tilemap[i][j].terrain)){
 					for (int k=0; k<parent.foe.size();k++) {
 						if (Arrays.equals(parent.foe.get(k).getLocation(),new int[]{i,j})) {
@@ -584,16 +600,25 @@ public class BattleMap extends JPanel implements ActionListener,MouseListener,Mo
 					//has exhausted its moves, and then depict appropriately
 					for (int k=0;k<parent.ally.size();k++){
 						if (Arrays.equals(parent.ally.get(k).getLocation(),new int[]{i,j})) {
+							// Draw a colored outline around ally troop
 							if (!parent.ally.get(k).hasMove()){
 								tilemap[i][j].drawMoveDepleted(g);
 							} else {
 								tilemap[i][j].drawOutline(g, MeriPet.OUTLINE[k]);
 							}
+							// Flag selected pets to be greyed out later.
+							if (isSelected(parent.ally.get(k))) {
+								issel=true;
+							}
 							break;
 						}
 					}
 				}
+				// Draw the tile, greying out if selected.
 				tilemap[i][j].draw(g);
+				if (issel) {
+					tilemap[i][j].drawSelected(g);
+				}
 			}
 		}
 		if (parent.checkGameWon()){
@@ -647,10 +672,10 @@ public class BattleMap extends JPanel implements ActionListener,MouseListener,Mo
 			int mx=e.getX();
 			int my=e.getY();
 			int xc=0,yc=0;
-			if (mx<getPaneSize()){
+			if (mx>=0 && mx<getPaneSize()){
 				xc=mx/TILESIZE;
 			}
-			if (my<getPaneSize()){
+			if (my>=0 && my<getPaneSize()){
 				yc=my/TILESIZE;
 			}
 //			System.out.println(mx+" "+my+"/"+xc+" "+yc);
